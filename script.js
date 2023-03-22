@@ -1,9 +1,12 @@
+var name1 = document.querySelector("#name1")
+var name2 = document.querySelector("#name2")
+
 var names1 = document.querySelector("#names1")
 var names2 = document.querySelector("#names2")
+var turn = 0
 
 document.querySelector('#btn').addEventListener("click", function () {
-    var name1 = document.querySelector("#name1")
-    var name2 = document.querySelector("#name2")
+    
 
     if (name1.value == "" && name2.value == "") {
 
@@ -27,7 +30,9 @@ document.querySelector('#btn').addEventListener("click", function () {
 
         names1.innerHTML = name1.value
         names2.innerHTML = name2.value
-        
+
+        turns()
+
     }
 
     function getRandom() {
@@ -35,6 +40,8 @@ document.querySelector('#btn').addEventListener("click", function () {
     }
 
     var player = getRandom();
+
+    verifPlayer()
 
     var maps = document.querySelectorAll(".maps")
 
@@ -52,22 +59,39 @@ document.querySelector('#btn').addEventListener("click", function () {
 
     }
 
-    function ban() {
-        this.style.filter = "grayscale(1)"
-        this.style.textDecoration = "line-through"
-        
-        if (banned) {
-            verifPlayer()    
+    function turns() {
+
+        verifPlayer()
+
+        if (player == 0) {
+            playerText = name1.value
+        } else if (player == 1) {
+            playerText = name2.value
         }
 
-        var banned = false
+        if (turn == 1 || turn == 2 || turn == 5 || turn == 6) {
 
-        console.log(banned)
+            this.style.filter = "grayscale(1)"
+            this.style.textDecoration = "line-through"
+            var text = document.createTextNode(" - "+playerText);
+            this.appendChild(text);
+
+        } else if (turn == 3 || turn == 4) {
+
+            this.style.textDecoration = "underline"
+            this.style.background = "green"
+            this.style.border = "solid 1px green"
+            var text = document.createTextNode(" - "+playerText);
+            this.appendChild(text);
+
+        }
+
+        turn++
     }
 
     for (var el, i = 0; i < maps.length; i++) {
         el = maps[i];
-        el.addEventListener("click", ban);
+        el.addEventListener("click", turns);
     }
 
 })
